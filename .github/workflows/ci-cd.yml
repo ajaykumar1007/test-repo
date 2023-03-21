@@ -21,7 +21,9 @@ jobs:
     - name: Install Dependencies
       run: |
         gem install cocoapods
-        pod install
+        #pod install
+        pod try CalendarKit
+
 
     - name: Build and Test
       run: xcodebuild -workspace MyApp.xcworkspace -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
