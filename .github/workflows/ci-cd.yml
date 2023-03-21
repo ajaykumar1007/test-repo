@@ -25,7 +25,7 @@ jobs:
          pod repo update
 
     - name: Build and Test
-      run: xcodebuild -workspace project.xcworkspace -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
+      run: xcodebuild -workspace Calendar.xcodeproj -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
 
     - name: Archive App
       run: xcodebuild -workspace project.xcworkspace -scheme MyApp -destination 'generic/platform=iOS' -archivePath MyApp.xcarchive archive
