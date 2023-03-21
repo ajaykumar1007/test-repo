@@ -1,0 +1,39 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Set up Xcode
+      uses: actions/setup-xcode@v2
+      with:
+        xcode-version: '13.2.1'
+
+    - name: Install Dependencies
+      run: |
+        gem install cocoapods
+        pod install
+
+    - name: Build and Test
+      run: xcodebuild -workspace MyApp.xcworkspace -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
+
+    - name: Archive App
+      run: xcodebuild -workspace MyApp.xcworkspace -scheme MyApp -destination 'generic/platform=iOS' -archivePath MyApp.xcarchive archive
+
+    - name: Create IPA
+      run: xcodebuild -exportArchive -archivePath MyApp.xcarchive -exportOptionsPlist exportOptions.plist -exportPath MyApp.ipa
+
+    - name: Upload to Storage Service
+      uses: actions/upload-artifact@v2
+      with:
+        name: MyApp.ipa
+        path: MyApp.ipa
