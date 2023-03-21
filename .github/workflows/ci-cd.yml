@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@master
 
     - name: Set up Xcode
-      uses: actions/setup-xcode@v2
+      uses: actions/setup-xcode@master
       with:
         xcode-version: '13.2.1'
 
