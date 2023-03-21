@@ -25,10 +25,10 @@ jobs:
          pod repo update
 
     - name: Build and Test
-      run: xcodebuild -workspace MyApp.xcworkspace -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
+      run: xcodebuild -workspace project.xcworkspace -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
 
     - name: Archive App
-      run: xcodebuild -workspace MyApp.xcworkspace -scheme MyApp -destination 'generic/platform=iOS' -archivePath MyApp.xcarchive archive
+      run: xcodebuild -workspace project.xcworkspace -scheme MyApp -destination 'generic/platform=iOS' -archivePath MyApp.xcarchive archive
 
     - name: Create IPA
       run: xcodebuild -exportArchive -archivePath MyApp.xcarchive -exportOptionsPlist exportOptions.plist -exportPath MyApp.ipa
