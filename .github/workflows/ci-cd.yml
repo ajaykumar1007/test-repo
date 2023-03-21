@@ -23,6 +23,9 @@ jobs:
         gem install cocoapods
         #pod install
         pod repo update
+        pod try CalendarKit
+        ls -l
+        pwd
 
     - name: Build and Test
       run: xcodebuild -workspace Calendar.xcodeproj -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
