@@ -25,11 +25,13 @@ jobs:
         ls -l
         pwd
         pod repo update
-        pod 'CalendarKit'
-        pod try CalendarKit
+        #pod 'CalendarKit'
+        #pod try CalendarKit
         
 
     - name: Build and Test
+      run: cd Calendar.xcodeproj
+      run: ls -l
       run: xcodebuild -workspace Calendar.xcodeproj -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
 
     - name: Archive App
