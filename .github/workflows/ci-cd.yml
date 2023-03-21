@@ -22,7 +22,7 @@ jobs:
       run: |
         gem install cocoapods
         #pod install
-        pod pod repo update
+         pod repo update
 
     - name: Build and Test
       run: xcodebuild -workspace MyApp.xcworkspace -scheme MyApp -destination 'platform=iOS Simulator,name=iPhone 13' clean test
