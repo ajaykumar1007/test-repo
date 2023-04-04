@@ -1,11 +1,8 @@
-On branch 0.1.0-dev
+On branch 0.2.0-dev
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
+	modified:   a.py
 	modified:   gitstatus
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	lf
 
 no changes added to commit (use "git add" and/or "git commit -a")

@@ -8,9 +8,12 @@ os.system(f"git fetch --all")
 version = os.popen("git branch -a --sort=-version:refname| awk -v FS='/' '{print $3}'|awk '/[0-9]/'|sort|tail -1").read().strip()
 
 if not version:
-    version = '0.0.0'
-    with open(file_path, "w") as f:
-        f.write(f"VERSION: {version}\n")
+    if os.path.isfile(file_path):
+        version = os.popen("grep -i version release_info.txt | cut -d' ' -f2-").read().strip()
+        if not version:
+            version = '0.0.0'
+            with open(file_path, "w") as f:
+                f.write(f"VERSION: {version}\n")
 
 # Get the commit ID, last commit hash, source branch, and commit date
 COMMIT_ID = os.popen('git rev-parse --short HEAD').read().strip()
