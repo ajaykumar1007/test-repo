@@ -1,4 +1,4 @@
-On branch 0.3.0-dev
+On branch release-v0.3.0-dev
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
@@ -6,6 +6,7 @@ Changes not staged for commit:
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-	yy
+	a
+	n.py
 
 no changes added to commit (use "git add" and/or "git commit -a")
