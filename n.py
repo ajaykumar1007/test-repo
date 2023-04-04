@@ -13,7 +13,8 @@ if re.match(r'^release-v\d+\.\d+\.\d+$', current_branch):
 match = re.match(r'^release-v(\d+\.\d+\.\d+)$', current_branch)
 if match:
     version = match.group(1)
-
+    print(match.group(1))
+    
     # Check if the release tag with that version already exists
     tags = subprocess.check_output(['git', 'tag']).strip().decode('utf-8').split('\n')
     if f'release-v{version}' in tags:
