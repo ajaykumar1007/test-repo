@@ -5,12 +5,12 @@ import subprocess
 current_branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).strip().decode('utf-8')
 
 # Check if the branch name matches the release branch format
-if re.match(r'^release-v\d+\.\d+\.\d+$', current_branch):
+if re.match(r'^\d+\.\d+\.\d+$', current_branch):
     # The code is being executed in a release branch created by the preparation script
     ...
 
 # Get the version number from the current branch name
-match = re.match(r'^release-v(\d+\.\d+\.\d+)$', current_branch)
+match = re.match(r'^(\d+\.\d+\.\d+)$', current_branch)
 if match:
     version = match.group(1)
     print(match.group(1))
