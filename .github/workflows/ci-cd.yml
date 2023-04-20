@@ -1,27 +1,48 @@
-name: Release
+name: Build and Upload iOS App
 
 on:
-  pull_request:
-    types: [ labeled ]
+  push:
+    branches:
+      - main
+
+env:
+  APP_NAME: "MyApp"
+  REPO_NAME: "test-repo"
+  REPO_OWNER: "ajaykumar1007"
+  REPO_BRANCH: "0.0.3"
+  REPO_DIR: "ios-build"
+  APP_VERSION: "1.0.0"
 
 jobs:
-  prepare-release:
+  build_and_upload:
+    runs-on: macos-latest
     steps:
-      - name: Set major release
-        if: ${{ github.event.label.name == 'release-major' }}
-        run: echo "RELEASE=major" >> $GITHUB_ENV
-      - name: Set minor release
-        if: ${{ github.event.label.name == 'release-minor' }}
-        run: echo "RELEASE=minor" >> $GITHUB_ENV
-      - name: Set patch release
-        if: ${{ github.event.label.name == 'release-patch' }}
-        run: echo "RELEASE=patch" >> $GITHUB_ENV
-      - name: Check release env
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+
+      - name: Build iOS app
         run: |
-          if [[ -z "${{ env.RELEASE }}" ]];
-          then
-            echo "You need to set a release label on PRs to the main branch"
-            exit 1
-          else
-            exit 0
-          fi 
+        
+          mkdir -p ${{ env.REPO_DIR }}
+          mv ./build/*.ipa ${{ env.REPO_DIR }}/${{ env.APP_NAME }}-${{ env.APP_VERSION }}.ipa
+
+      - name: Clone archive repository
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ env.REPO_OWNER }}/${{ env.REPO_NAME }}
+          ref: ${{ env.REPO_BRANCH }}
+          path: archive-repo
+
+      - name: Copy iOS build to archive repository
+        run: |
+          cp -r ${{ env.REPO_DIR }} archive-repo/
+          cd archive-repo
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Add iOS build v${{ env.APP_VERSION }}"
+          git push
+
+      - name: Clean up build artifacts
+        run: rm -rf ./build
