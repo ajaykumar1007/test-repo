@@ -15,7 +15,7 @@ env:
 
 jobs:
   build_and_upload:
-    runs-on: ubunut:20.04
+    runs-on: ubunut:latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
