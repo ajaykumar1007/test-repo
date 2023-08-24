@@ -21,10 +21,10 @@ jobs:
           if [ $BRANCH -eq "stage" ];
           then
           echo '{"Repo":"$REPO","Branch":"$BRANCH","Deployment_Name":"${{ secrets.NAME }}","Namespace":"${{ secrets.NAMESPCE }}","Cluster_Name":"${{ secrets.CLUSTER }}","FORCE":"${{ secrets.FORCE_VALUE }}"}' | aws lambda invoke --function-name MyLambdaFunction --payload file:///dev/stdin output.txt
-          elseif $BRANCH -eq "uat" ];
+          elseif [ $BRANCH -eq "uat" ];
           then
           echo '{"Repo":"$REPO","Branch":"$BRANCH","Deployment_Name":"${{ secrets.NAME }}","Namespace":"${{ secrets.NAMESPCE }}","Cluster_Name":"${{ secrets.CLUSTER }}","FORCE":"${{ secrets.FORCE_VALUE }}"}' | aws lambda invoke --function-name MyLambdaFunction --payload file:///dev/stdin output.txt
-          elseif $BRANCH -eq "prod" ];
+          elseif [ $BRANCH -eq "prod" ];
           echo '{"Repo":"$REPO","Branch":"$BRANCH","Deployment_Name":"${{ secrets.NAME }}","Namespace":"${{ secrets.NAMESPCE }}","Cluster_Name":"${{ secrets.CLUSTER }}","FORCE":"${{ secrets.FORCE_VALUE }}"}' | aws lambda invoke --function-name MyLambdaFunction --payload file:///dev/stdin output.txt
           else
             echo "Not Found"
