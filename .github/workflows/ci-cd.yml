@@ -1,28 +1,31 @@
-name: Release
+name: Trigger Lambda
 
 on:
-  pull_request:
-    types: [ labeled ]
-
+  push:
+    branches:
+      - main  # Replace with your desired branch name
 jobs:
-  prepare-release:
+  invoke_lambda:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Set major release
-        if: ${{ github.event.label.name == 'release-major' }}
-        run: echo "RELEASE=major" >> $GITHUB_ENV
-      - name: Set minor release
-        if: ${{ github.event.label.name == 'release-minor' }}
-        run: echo "RELEASE=minor" >> $GITHUB_ENV
-      - name: Set patch release
-        if: ${{ github.event.label.name == 'release-patch' }}
-        run: echo "RELEASE=patch" >> $GITHUB_ENV
-      - name: Check release env
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Invoke Lambda
         run: |
-          if [[ -z "${{ env.RELEASE }}" ]];
+          BRANCH=$(git branch --show-current)
+          REPO=$(basename -s .git $(git config --get remote.origin.url))
+          echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
+          echo "REPO=${REPO}" >> $GITHUB_ENV
+          if [ $BRANCH -eq "stage" ];
           then
-            echo "You need to set a release label on PRs to the main branch"
-            exit 1
+          echo '{"Repo":"$REPO","Branch":"$BRANCH","Deployment_Name":"${{ secrets.NAME }}","Namespace":"${{ secrets.NAMESPCE }}","Cluster_Name":"${{ secrets.CLUSTER }}","FORCE":"${{ secrets.FORCE_VALUE }}"}' | aws lambda invoke --function-name MyLambdaFunction --payload file:///dev/stdin output.txt
+          elseif $BRANCH -eq "uat" ];
+          then
+          echo '{"Repo":"$REPO","Branch":"$BRANCH","Deployment_Name":"${{ secrets.NAME }}","Namespace":"${{ secrets.NAMESPCE }}","Cluster_Name":"${{ secrets.CLUSTER }}","FORCE":"${{ secrets.FORCE_VALUE }}"}' | aws lambda invoke --function-name MyLambdaFunction --payload file:///dev/stdin output.txt
+          elseif $BRANCH -eq "prod" ];
+          echo '{"Repo":"$REPO","Branch":"$BRANCH","Deployment_Name":"${{ secrets.NAME }}","Namespace":"${{ secrets.NAMESPCE }}","Cluster_Name":"${{ secrets.CLUSTER }}","FORCE":"${{ secrets.FORCE_VALUE }}"}' | aws lambda invoke --function-name MyLambdaFunction --payload file:///dev/stdin output.txt
           else
-          
-            exit 0
-          fi 
+            echo "Not Found"
+          fi
