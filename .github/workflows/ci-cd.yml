@@ -15,7 +15,7 @@ jobs:
       - name: Invoke Lambda
         run: |
           BRANCH=$(git branch --show-current)
-          REPO=$(basename -s .git $(git config --get remote.origin.url))
+          # REPO=$(basename -s .git $(git config --get remote.origin.url))
           echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
           echo "REPO=${REPO}" >> $GITHUB_ENV
           if [ $BRANCH -eq "stage" ];
