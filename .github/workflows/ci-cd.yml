@@ -3,7 +3,7 @@ name: Trigger Lambda
 on:
   push:
     branches:
-      - main  # Replace with your desired branch name
+      - test  # Replace with your desired branch name
 jobs:
   invoke_lambda:
     runs-on: ubuntu-latest
