@@ -5,7 +5,8 @@ env:
 on:
   push:
     branches:
-      - ${{ env.default-branch }}  # or the name of your main branch
+      - main
+      #- ${{ env.default-branch }}  # or the name of your main branch
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
