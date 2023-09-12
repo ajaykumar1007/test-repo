@@ -39,7 +39,7 @@ To run CalendarApp:
 
 - Xcode 12
 - iOS 14
-- ios test
+- ios test name
 
 ## Contributing
 
