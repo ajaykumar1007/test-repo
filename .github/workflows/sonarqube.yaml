@@ -1,0 +1,26 @@
+name: Build
+env: 
+  GITHUB_REPOSITORY: ${{ github.event.repository.name }}
+on:
+  push:
+    branches:
+      - $default-branch  # or the name of your main branch
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: set SonarQube project
+        run: |
+          echo "sonar.projectKey=${{ env.GITHUB_REPOSITORY}}" > sonar-project.properties
+          echo "${{ env.GITHUB_REPOSITORY}}"
+          cat sonar-project.properties
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
