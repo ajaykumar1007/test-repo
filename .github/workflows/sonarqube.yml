@@ -20,7 +20,7 @@ jobs:
       BACKBLAZE_B2_BUCKET_ID: '5a076c2bfdd7aab381ae0913'
       CURRENT_GITHUB_BRANCH: ${{ github.ref }}
       TIME: $(date +'%Y-%m-%d')
-      GITHUB_REPOSITORY: ${{ github.repository }}
+      GITHUB_REPOSITORY      : ${{ github.event.repository.name }}
       BACKUP_DIR: 'backups'
 
     steps:
