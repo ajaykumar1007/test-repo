@@ -62,8 +62,8 @@ jobs:
       - name: Copy archive to B2
         id: backups
         uses: PEER-Inc/backblaze-b2-custom-action@main
-        with:
-          B2_BUCKET: $BACKBLAZE_B2BUCKET
-          B2_APPKEY_ID: $BACKBLAZE_APP_ID
-          B2_APPKEY: $BACKBLAZE_APP_KEY
-          SOURCE_DIR: $BACKUP_DIR
+        env:
+            B2_BUCKET: ${{ env.BACKBLAZE_B2BUCKET }}
+            B2_APPKEY_ID: ${{ secrets.B2_APPKEY_ID }}
+            B2_APPKEY: ${{ secrets.B2_APPKEY }}
+            SOURCE_DIR: '${{ env.BACKUP_DIR }}/'
