@@ -14,8 +14,8 @@ jobs:
     env:
       BACKBLAZE_APP_ID: ${{ secrets.B2_APPKEY_ID }}
       BACKBLAZE_APP_KEY: ${{ secrets.B2_APPKEY }}
-      BACKBLAZE_B2BUCKET: ${{ BACKBLAZE_B2BUCKET }}
-      BACKBLAZE_B2_BUCKET_ID: ${{ BACKBLAZE_B2_BUCKET_ID }}
+      BACKBLAZE_B2BUCKET: ${BACKBLAZE_B2BUCKET}
+      BACKBLAZE_B2_BUCKET_ID: ${BACKBLAZE_B2_BUCKET_ID}
       CURRENT_GITHUB_BRANCH: ${GITHUB_REF##*/}
       TIME: $(date +'%Y-%m-%d')
       GITHUB_REPOSITORY      : ${{ github.event.repository.name }}
