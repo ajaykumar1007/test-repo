@@ -18,7 +18,7 @@ jobs:
       BACKBLAZE_APP_KEY: ${{ secrets.B2_APPKEY }}
       BACKBLAZE_B2BUCKET: 'b2://test-repo-new'
       BACKBLAZE_B2_BUCKET_ID: '5a076c2bfdd7aab381ae0913'
-      CURRENT_GITHUB_BRANCH: ${{ github.ref }}
+      CURRENT_GITHUB_BRANCH: ${GITHUB_REF##*/}
       TIME: $(date +'%Y-%m-%d')
       GITHUB_REPOSITORY      : ${{ github.event.repository.name }}
       BACKUP_DIR: 'backups'
