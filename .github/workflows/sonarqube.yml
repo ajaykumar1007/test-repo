@@ -3,10 +3,10 @@ name: Build
 on:
   push:
     branches:
-      - $default-branch  # Replace with the name of your main branch
+      - main # Replace with the name of your main branch
   pull_request:
     branches:
-      - $default-branch
+      - main
 
 jobs:
   build:
