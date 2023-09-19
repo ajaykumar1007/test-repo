@@ -1,19 +1,36 @@
 name: Build
 env: 
-  GITHUB_REPOSITORY: ${{ github.event.repository.name }}
+  # Access to BlackBaze Bucket:
+  BACKBLAZE_APP_ID       : ${{ secrets.B2_APPKEY_ID }}
+  BACKBLAZE_APP_KEY      : ${{ secrets.B2_APPKEY }}
+
+  # Parameters for B2 bucket.
+  BACKBLAZE_B2BUCKET     : 'b2://test-repo-new'
+  BACKBLAZE_B2_BUCKET_ID : '5a076c2bfdd7aab381ae0913'
+
+  # Parameters for making a backup-file:
+  CURRENT_GITHUB_BRANCH  : ${GITHUB_REF##*/}
+  TIME                   : $(date +'%Y-%m-%d')
+  GITHUB_REPOSITORY      : ${{ github.event.repository.name }}
+  BACKUP_DIR             : 'backups'
 on:
   push:
-     branches:
-       - main
-      # - ${{ github.event.repository.default_branch }} # or the name of your main branch
+    branches:
+      - $default-branch  # or the name of your main branch
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches:
+      - $default-branch
+    #types: [opened, synchronize, reopened]
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+##############################################
+# Part 1: Sent code to SonarQube for scan ####
+##############################################
       - name: set SonarQube project
         run: |
           echo "sonar.projectKey=${{ env.GITHUB_REPOSITORY}}" > sonar-project.properties
@@ -23,3 +40,25 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+##################################
+# Part 1: Backups Backblaze ######
+##################################
+
+#Create archieve of branch
+    - name: Create backup-archive of branch
+      run: tar cpzf $(echo "${{ github.event.repository.name }}-${GITHUB_REF##*/}" | sed -e 's/\.//g' -e 's/\///g').zip *
+    - run: ls -a
+    - run: echo $(tar)
+    - run: mkdir ${{ env.BACKUP_DIR }}
+    - run: mv *zip ${{ env.BACKUP_DIR }}
+
+# Copy backups to BackBlaze
+    - name: Copy archive to B2
+      id: backups
+      uses: PEER-Inc/backblaze-b2-custom-action@main
+      env:
+          B2_BUCKET: ${{ env.BACKBLAZE_B2BUCKET }}
+          B2_APPKEY_ID: ${{ secrets.B2_APPKEY_ID }}
+          B2_APPKEY: ${{ secrets.B2_APPKEY }}
+          SOURCE_DIR: '${{ env.BACKUP_DIR }}/'
