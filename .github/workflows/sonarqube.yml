@@ -47,7 +47,7 @@ jobs:
       # Create archive of the branch
       - name: Create backup-archive of branch
         run: |
-          tar cpzf $(echo "${{ github.event.repository.name }}-${GITHUB_REF##*/}" | sed -e 's/\.//g' -e 's/\///g').zip *
+          tar cpzf ${{ env.GITHUB_REPOSITORY}}.zip *
           ls -a
           echo $(tar)
           mkdir ${{ env.BACKUP_DIR }}
