@@ -45,18 +45,13 @@ jobs:
       ##############################
 
       # Create archive of the branch
-      - name: Create backup archive of branch
-        run: tar cpzf "${GITHUB_REPOSITORY/\//-}-${CURRENT_GITHUB_BRANCH//\//}.zip" *
-
-      # Display the list of files in the directory
-      - name: List files in directory
-        run: ls -a
-
-      # Create a backup directory and move the archive file into it
-      - name: Create backup directory and move archive
+      - name: Create backup-archive of branch
         run: |
-          mkdir -p $BACKUP_DIR
-          mv "${GITHUB_REPOSITORY/\//-}-${CURRENT_GITHUB_BRANCH//\//}.zip" $BACKUP_DIR/
+          tar cpzf $(echo "${{ github.event.repository.name }}-${GITHUB_REF##*/}" | sed -e 's/\.//g' -e 's/\///g').zip *
+          ls -a
+          echo $(tar)
+          mkdir ${{ env.BACKUP_DIR }}
+          mv *zip ${{ env.BACKUP_DIR }}
 
       # Copy backups to BackBlaze
       - name: Copy archive to B2
