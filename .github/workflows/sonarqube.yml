@@ -4,7 +4,7 @@ env:
 on:
   push:
      branches:
-       - test
+       - main
       # - ${{ github.event.repository.default_branch }} # or the name of your main branch
   pull_request:
     types: [opened, synchronize, reopened]
