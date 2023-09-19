@@ -14,7 +14,7 @@ jobs:
     env:
       BACKBLAZE_APP_ID: ${{ secrets.B2_APPKEY_ID }}
       BACKBLAZE_APP_KEY: ${{ secrets.B2_APPKEY }}
-      # BACKBLAZE_B2BUCKET: ${BACKBLAZE_B2BUCKET}
+      BACKBLAZE_B2BUCKET: ${BACKBLAZE_B2BUCKET}
       # BACKBLAZE_B2_BUCKET_ID: ${BACKBLAZE_B2_BUCKET_ID}
       CURRENT_GITHUB_BRANCH: ${GITHUB_REF##*/}
       TIME: $(date +'%Y-%m-%d')
@@ -56,7 +56,7 @@ jobs:
         id: backups
         uses: PEER-Inc/backblaze-b2-custom-action@main
         env:
-            B2_BUCKET: ${BACKBLAZE_B2BUCKET}
+            B2_BUCKET: ${{ env.BACKBLAZE_B2BUCKET }}
             B2_APPKEY_ID: ${{ secrets.B2_APPKEY_ID }}
             B2_APPKEY: ${{ secrets.B2_APPKEY }}
             SOURCE_DIR: '${{ env.BACKUP_DIR }}/'
