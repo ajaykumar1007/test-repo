@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - main # Replace with the name of your main branch
+      - main2345 # Replace with the name of your main branch
   pull_request:
     branches:
       - main
