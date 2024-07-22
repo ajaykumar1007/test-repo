@@ -15,5 +15,5 @@ jobs:
         run: |
           env
           echo "**********************************"
-          echo '{{ vars.ENV  }}' > a.txt
+          echo '${{ vars.ENV  }}' > a.txt
           cat a.txt
